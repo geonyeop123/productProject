@@ -1,0 +1,9 @@
+services:
+  mysql:
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=product'
+      - 'MYSQL_PASSWORD=application'
+      - 'MYSQL_USER=application'
+    ports:
+      - '3306:3306'
