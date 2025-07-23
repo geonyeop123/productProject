@@ -24,6 +24,13 @@
     let currentPage = 1;
     const size = 5;
 
+    function getPaginationState(page, size, totalPages) {
+        return {
+            canGoPrev: page > 1,
+            canGoNext: page < totalPages,
+        };
+    }
+
     function loadProducts(page) {
         fetch(`/api/v1/products?page=${page}&size=${size}`)
             .then(res => res.json())
@@ -37,12 +44,15 @@
                 });
                 currentPage = data.page;
                 document.getElementById("page-number").innerText = `페이지 ${currentPage}`;
+
                 // 이전/다음 버튼 제어
+                const { canGoPrev, canGoNext } = getPaginationState(data.page, data.size, data.totalPages, data.totalCount);
+
                 const prevBtn = document.getElementById("prevBtn");
                 const nextBtn = document.getElementById("nextBtn");
 
-                prevBtn.style.display = data.first ? 'none' : 'inline';
-                nextBtn.style.display = data.last ? 'none' : 'inline';
+                prevBtn.style.display = canGoPrev ? 'inline' : 'none';
+                nextBtn.style.display = canGoNext ? 'inline' : 'none';
             });
     }
 
