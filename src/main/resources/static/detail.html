@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 상세</title>
+</head>
+<body>
+<h1>상품 상세</h1>
+<div id="detail"></div>
+<button onclick="goToEdit()">수정하기</button>
+<button onclick="location.href='index.html'">목록으로</button>
+
+<script>
+    const params = new URLSearchParams(location.search);
+    const productId = params.get("productId");
+
+    fetch(`/api/v1/products/${productId}`)
+        .then(res => res.json())
+        .then(p => {
+            document.getElementById("detail").innerHTML = `
+          <p>ID: ${p.productId}</p>
+          <p>이름: ${p.name}</p>
+          <p>가격: ${p.price}</p>
+          <p>재고: ${p.stock}</p>
+        `;
+        });
+
+    function goToEdit() {
+        location.href = `edit.html?productId=${productId}`;
+    }
+</script>
+</body>
+</html>
